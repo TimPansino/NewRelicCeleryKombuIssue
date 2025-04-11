@@ -7,12 +7,18 @@ app = Flask(__name__)
 
 @app.route("/")
 def root():
-    result = rand_int_task.delay()
-    while not result.ready():
-        time.sleep(0.1)
-    i = result.result
+    i = rand_int_task.delay(10)
+    j = rand_int_task.delay(add=20)
 
-    return f"Your random number is: {i}"
+    while not i.ready():
+        time.sleep(0.1)
+    i = i.result
+
+    while not j.ready():
+        time.sleep(0.1)
+    j = j.result
+
+    return f"Your random numbers are: {i}, {j}"
 
 
 if __name__ == "__main__":

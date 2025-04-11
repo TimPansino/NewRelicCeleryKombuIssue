@@ -21,6 +21,6 @@ app.conf.task_default_queue = "web"
 # Either decorator here seems to work
 # @app.task(bind=True, queue="web")
 @shared_task(bind=True, queue="web")
-def rand_int_task(self):
+def rand_int_task(self, add):
     logger.critical("Task run.")
-    return random.randint(1, 10)
+    return random.randint(1, 10) + add
